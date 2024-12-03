@@ -1,17 +1,56 @@
-name: Build C++ Program
+name: CI Pipeline
 
 on:
   push:
     branches:
       - branchMake
+      - branchAutomake
+      - branchAutoPackage
+      - branchAutoTest
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y g++
-      - name: Build the program
-        run: make
 
+    strategy:
+      matrix:
+        stage: [make, automake, package, test]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          case "${{ matrix.stage }}" in
+            make) sudo apt-get install -y g++ ;;
+            automake) sudo apt-get install -y autoconf automake ;;
+            package) sudo apt-get install -y autoconf automake dpkg-dev ;;
+            test) sudo apt-get install -y autoconf automake ;;
+          esac
+
+      - name: Run stage: Build Binary with Makefile
+        if: ${{ matrix.stage == 'make' }}
+        run: |
+          make
+          ./program
+
+      - name: Run stage: Build Tarball with Autotools
+        if: ${{ matrix.stage == 'automake' }}
+        run: |
+          ./configure
+          make dist
+
+      - name: Run stage: Build Debian Package
+        if: ${{ matrix.stage == 'package' }}
+        run: |
+          ./configure
+          make
+          dpkg-buildpackage -us -uc
+
+      - name: Run stage: Run Unit Tests
+        if: ${{ matrix.stage == 'test' }}
+        run: |
+          ./configure
+          make check
