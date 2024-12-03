@@ -1,0 +1,5 @@
+Package: funca
+Version: 1.0
+Architecture: all
+Maintainer: superenko312@gmail.com
+Description:The FuncA calculates sum of first 3 elements of the series
