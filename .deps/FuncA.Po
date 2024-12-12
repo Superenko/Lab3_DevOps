@@ -1,4 +1,4 @@
-../FuncA.o: ../FuncA.cpp /usr/include/stdc-predef.h ../FuncA.h \
+FuncA.o: FuncA.cpp /usr/include/stdc-predef.h FuncA.h \
  /usr/include/c++/9/cmath \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -62,7 +62,7 @@
 
 /usr/include/stdc-predef.h:
 
-../FuncA.h:
+FuncA.h:
 
 /usr/include/c++/9/cmath:
 

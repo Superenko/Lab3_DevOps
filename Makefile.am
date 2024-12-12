@@ -1,9 +1,9 @@
 AUTOMAKE_OPTIONS = foreign
 bin_PROGRAMS = FuncA
-FuncA_SOURCES = main.cpp FuncA.cpp FuncA.h
+FuncA_SOURCES = main.cpp FuncA.cpp FuncA.h HTTPserver.cpp
 dist_man_MANS = FuncA.1
 
-SUBDIR = tests
+SUBDIRS = tests
 
 CTRLF_DIR=$(CURDIR)/deb/DEBIAN
 CTRLF_NAME=$(CTRLF_DIR)/control
